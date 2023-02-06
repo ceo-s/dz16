@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Business Casual - Start Bootstrap Theme</title>
+        <title>UNIPARSER</title>
         <link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -44,23 +44,26 @@
                             <h2 class="section-heading mb-10">
                                 <span class="section-heading-lower">Результаты</span>
                             </h2>
-                            {% for item in data %}
+                            
                             <h4 class="section-heading mb-10">
-                                <span class="section-heading-upper">{{item}}</span>
+                                <span class="section-heading-upper">Today</span>
                             </h4>
                             <table class="table table-borderless">
                                 <thead>
-                                    <th scope="col">Требование</th>
-                                    <th scope="col">Количество</th>                                   
+                                    <th scope="col">Запрос</th>
+                                    <th scope="col">Регион</th>                                   
+                                    <th scope="col">Файл</th>                                   
                                 </thead>                                
-                                {% for it in data[item] %}
+                                {% for list in data %}
                                 <tbody>                                    
-                                    <td>{{it}}</td>
-                                    <td>{{data[item][it]}}</td>                                    
+                                    <td>{{list[0]}}</td>
+                                    <td>{{list[1]}}</td>
+                                    
+                                    <td><a href="/static/results/{{list[2]}}">{{list[2]}}</a></td>                                  
                                 </tbody>
                                 {% endfor %}
                             </table>                                    
-                            {% endfor %}
+                            
                         </div>
                     </div>
                 </div>
