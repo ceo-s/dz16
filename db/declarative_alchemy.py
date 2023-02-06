@@ -7,7 +7,7 @@ from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import mapped_column
 
 from sqlalchemy import create_engine
-from db.config import postgres as conf
+from config import postgres as conf
 from psycopg2.errors import UniqueViolation
 from static.data import regions
 
@@ -79,7 +79,6 @@ create_regions_table()
 
 
 def save_request(vacancy_name, region, filename):
-    #print(session.get(Datafile, {"datafile": filename}))
     if not session.query(Datafile).filter(Datafile.datafile == filename).all():
         datafile = Datafile(datafile=filename)
         session.add(datafile)
@@ -103,16 +102,6 @@ def return_built_info():
 
 
 if __name__ == "__main__":
-    
-    # save_request('Govno', '1', 'govno.xlsx')
-    # save_request('Ochko', '2', 'govno2.xlsx')
-    # save_request('Blyadina', '3', 'govno3.xlsx')
-    # save_request('Her', '1', 'govno4.xlsx')
-    # save_request('Zalupa', '113', 'govno5.xlsx')
-    # save_request('Zalupan', '113', 'govno6.xlsx')
-    # save_request('Zapa', '113', 'govno8.xlsx')
-    # save_request('Zlua', '113', 'govno7.xlsx')
-
     print(list(return_built_info()))
     print(len(list(return_built_info())))
     

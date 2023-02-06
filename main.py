@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request
-import json
-import os
 from parse import ParserStats, ParserTable
 from db.declarative_alchemy import save_request, return_built_info
 from static.data import parsed_data_keys as pdk
@@ -15,7 +13,6 @@ def main():
 def result():
     
     data = list(return_built_info())
-    print(data)
     """for dr in os.listdir("static/results"):
         with open(f'static/results/{dr}', 'r') as file:
             data[dr.split('.')[0]] = json.load(file)"""
@@ -35,11 +32,8 @@ def settings_post():
         return render_template('settings.html', photo="/static/assets/img/error.gif")
     params = list(request.form.keys())[3:]
     
-    print(file, text, area)
-    print(params)
     parser = ParserTable(params={"text": text, "area": area})
     save_request(vacancy_name=text, region=area, filename=f"{file}{parser.ext}")
-    #parser = ParserStats(params={"text": text, "area": area, "professional_role": "96"})
     parser.execute(params=params, file_name=file)
     del parser
     return render_template('settings.html', photo="/static/assets/img/res.jpg")

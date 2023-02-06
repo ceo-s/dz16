@@ -4,13 +4,12 @@ from pprint import pp
 import json
 from time import perf_counter
 from exel import create_xlsx
-#import logging
+from config import ACCESS_TOKEN
 
 
 DOMAIN = "https://api.hh.ru/"
 HH_DOMAIN = "https://api.hh.ru/"
-ACCESS_TOKEN = "R8CL8BSMREO9LF305P1A3L9NV8RI0LHVO2JQ4E7UA3IC8IFT27V0CP39N7LK1DOC"
-REFRESH_TOKEN = "H88P8UDFR176597KK6PRU26S72SUJFL3IQHJIECSCC6758CEKP7MR7CB4TAAE9IJ"
+
 #logging.basicConfig(filename="test.log", level=logging.DEBUG, format="%(message)s")
 HEADERS = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
 
@@ -100,11 +99,10 @@ class ParserTable:
 
     def parse_pages(self):
         page_list = [f"{self.domain}{self.url}?{'&'.join([key+'='+val for key, val in self.params.items()])}&page={str(i)}" for i in range(1, self.pages + 1)]
-        print(self.pages)
-        print(page_list)
+        
         resp = (grequests.get(page, headers=HEADERS) for page in page_list)
         result = grequests.map(resp)
-        print(result)
+        
         parsed_data =[]
         [parsed_data.extend(res.json()['items']) if 'items' in res.json() else print(res.json()) for res in result]
         
@@ -182,14 +180,6 @@ hh_u = ParserTable(HH_DOMAIN, url="vacancies", pages=1, params={
 
 if __name__ == "__main__":
     start = perf_counter()
-    #print(hh_u.execute(file_name="Bitrix"))
-    # pp(a:=requests.get(f"{DOMAIN}vacancies", params={
-    # "text": "python",
-    # "area": "2", #Санкт-Петербург
-    # "professional_role": "96" #Программист-разработчик
-    # }, headers=HEADERS).json()['items'][0])
-    # print(a.keys())
-    # hh.execute("pizda.json")
     print(list(hh_u.parse_pages()))
     print(dict(hh_u.filter_data(params=['employer'])))
     print(f"Время выполнения: {(perf_counter() - start):.03f}")
